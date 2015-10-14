@@ -1,9 +1,10 @@
 from tkinter import *
 from WFrame import *
 from VScrollWidget import *
+from Article import *
 from ArticleWidget import *
-from urllib.parse import quote
-from urllib.request import urlopen
+import urllib.parse
+import urllib.request
 import json
 import __config__
 
@@ -52,15 +53,15 @@ class Search(WFrame):
     def searchNext(self):
         self.page += 1
         for article in Search.getArticles(self.txtKeyword.get(), self.page):
-            widget = ArticleWidget(self.frmArticleList.frame, article)
-            widget.pack()
+            ArticleWidget(self.frmArticleList.frame, article).pack()
 
-    ## 선택한 ArticleWidget으로 Article을 만들고 result에 저장한다.
+    ## 선택한 ArticleWidget으로 Article을 만든 후 result에 저장하고 창을 닫는다.
     def select(self, e):
         isArticleWidget = isinstance(e.widget, ArticleWidget)
-        if isArticleWidget or isinstance(e.widget.master, ArticleWidget) :
-            self.result = e.widget if isArticleWidget else e.widget.master
-            self.destroy()
+        if isArticleWidget or isinstance(e.widget.master, ArticleWidget):
+            aw = e.widget if isArticleWidget else e.widget.master
+            self.result = aw.article
+            self.master.destroy()
 
     ## NYTimes의 API를 이용해 keyword에 해당하는 기사의 목록을 10개 단위로 가져온다.
     #
@@ -71,13 +72,14 @@ class Search(WFrame):
     @staticmethod
     def getArticles(keyword, page=1):
         url = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=%s&fl=%s&page=%d' % (
-            quote(__config__.APIKey),
-            quote('web_url,headline,word_count'),
+            urllib.parse.quote(__config__.APIKey),
+            urllib.parse.quote('web_url,headline,word_count'),
             (page - 1) * 10)
         if len(keyword) > 0:
-            url += '&q=%s' % quote(keyword)
-        response = urlopen(url)
+            url += '&q=%s' % urllib.parse.quote(keyword)
+        response = urllib.request.urlopen(url)
         content = response.read().decode('UTF-8')
+
         jobject = json.loads(content, 'UTF-8')
         articles = []
         for i in jobject['response']['docs']:

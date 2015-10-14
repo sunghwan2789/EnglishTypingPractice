@@ -39,6 +39,7 @@ class WFrame(Frame):
     ## 생성자
     def __init__(self, master=None, parent=None, **kw):
         super().__init__(master, kw)
+        self.master.protocol('WM_DELETE_WINDOW', self._onClosing)
         self.parent = parent if parent != None else self
         self._initializeWidget()
         self.onLoad()
@@ -51,6 +52,11 @@ class WFrame(Frame):
         self.master.geometry('+%d+%d' % self._getPosition())
         self.pack(fill=BOTH, expand=TRUE)
         self.focus_set()
+
+    # onClosing Handler
+    def _onClosing(self):
+        self.onClosing()
+        self.master.destroy()
 
     ## startPosition에 근거한 위치를 계산한다.
     # @return tuple (x, y)
@@ -88,17 +94,21 @@ class WFrame(Frame):
     def onLoad(self):
         pass
 
+    ## 창 끌 때 할 작업
+    def onClosing(self):
+        pass
+
     ## wFrame을 자식 창에 띄우고 wFrame을 반환한다.
     # @param wFrame 자식 창에 띄울 WFrame
     # @return WFrame
-    def open(self, wFrame):
-        return wFrame(Toplevel(self), self)
+    def open(self, wFrame, **kw):
+        return wFrame(Toplevel(self), parent=self, **kw)
 
     ## 자식 창을 닫을 때까지 부모 창을 숨긴다.
     # @see open()
-    def openDialog(self, wFrame):
+    def openDialog(self, wFrame, **kw):
         self.master.withdraw()
-        wframe = self.open(wFrame)
+        wframe = self.open(wFrame, **kw)
         wframe.wait_window()
         self.master.deiconify()
         return wframe

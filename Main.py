@@ -1,8 +1,12 @@
 from tkinter import *
+import tkinter.messagebox as MessageBox
 from WFrame import *
 from Article import *
+from ArticleWidget import *
 from Search import *
+from View import *
 from Typing import *
+import pickle
 
 ## 영어 타자 연습의 대문
 #
@@ -11,6 +15,10 @@ from Typing import *
 # 오타 알리미를 열거나
 # 텍스트 전문을 볼 수 있습니다.
 class Main(WFrame):
+
+    ## 연습 중인 기사
+    # @var Article
+    article = None
 
     def initializeWidget(self):
         self.lblNYTimes = Label(self)
@@ -40,20 +48,41 @@ class Main(WFrame):
 
     def onLoad(self):
         # 글 불러오기
-        pass
+        try:
+            with open('last.article', 'rb') as article:
+                self.article = pickle.load(article)
+                ArticleWidget(self.frmArticle, self.article).pack()
+        except:
+            pass
 
+    def onClosing(self):
+        # 글 저장하기
+        try:
+            with open('last.article', 'wb') as article:
+                pickle.dump(self.article, article)
+        except:
+            pass
+
+    ## 기사 전문 보기
     def showArticle(self):
-        pass
+        try:
+            self.article.load()
+            self.openDialog(View, article=self.article)
+        except Exception as e:
+            print(e)
+            MessageBox.showerror(self.text, '기사를 불러오지 못했습니다.\n잠시 후 다시 시도하세요.')
 
+    ## Search로 NYTimes를 검색하고 연습에 쓸 기사를 선택합니다.
     def searchNYTimes(self):
         article = self.openDialog(Search).result
         if article == None:
             return
-
-        Article.practicing = article
+        # 옛 기사 삭제
         for widget in self.frmArticle.winfo_children():
             widget.destroy()
-        widget = ArticleWidget(self.frmArticle, Article.practicing)
-        widget.pack()
+        # 새 기사 등록
+        self.article = article
+        ArticleWidget(self.frmArticle, self.article).pack()
 
-Main(Tk()).mainloop()
+if __name__ == '__main__':
+    Main(Tk()).mainloop()
