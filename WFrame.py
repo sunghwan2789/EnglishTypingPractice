@@ -94,6 +94,10 @@ class WFrame(Frame):
     def onLoad(self):
         pass
 
+    ## 창을 닫는다.
+    def close(self):
+        self._onClosing()
+
     ## 창 끌 때 할 작업
     def onClosing(self):
         pass
@@ -112,7 +116,3 @@ class WFrame(Frame):
         wframe.wait_window()
         self.master.deiconify()
         return wframe
-
-    ## 창을 닫는다.
-    def close(self):
-        _onClosing()
