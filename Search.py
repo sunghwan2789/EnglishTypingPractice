@@ -61,7 +61,7 @@ class Search(WFrame):
         if isArticleWidget or isinstance(e.widget.master, ArticleWidget):
             aw = e.widget if isArticleWidget else e.widget.master
             self.result = aw.article
-            self.master.destroy()
+            self.close()
 
     ## NYTimes의 API를 이용해 keyword에 해당하는 기사의 목록을 10개 단위로 가져온다.
     #

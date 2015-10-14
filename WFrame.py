@@ -112,3 +112,7 @@ class WFrame(Frame):
         wframe.wait_window()
         self.master.deiconify()
         return wframe
+
+    ## 창을 닫는다.
+    def close(self):
+        _onClosing()
