@@ -15,7 +15,6 @@ class VScrollWidget(Frame):
         super().__init__(master, kw)
 
         self.canvas = Canvas(self)
-        self.canvas['bd'] = 0
         self.canvas['highlightthickness'] = 0
         self.canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
 

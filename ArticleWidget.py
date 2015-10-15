@@ -10,7 +10,7 @@ class ArticleWidget(Frame):
 
     ## 생성자
     def __init__(self, master=None, article=None, **kw):
-        Frame.__init__(self, master, kw)
+        super().__init__(master, kw)
         self.article = article if article != None else Article()
 
     def pack(self):

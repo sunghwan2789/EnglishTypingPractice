@@ -5,7 +5,7 @@ from Article import *
 from ArticleWidget import *
 from Search import *
 from View import *
-from Typing import *
+from Practice1 import *
 import pickle
 
 ## 영어 타자 연습의 대문
@@ -37,6 +37,11 @@ class Main(WFrame):
         self.btnNYTimes['text'] = '새 기사 고르기'
         self.btnNYTimes['command'] = self.searchNYTimes
         self.btnNYTimes.grid(row=0, column=3)
+
+        self.btnTypePractice = Button(self)
+        self.btnTypePractice['text'] = '연습 시작'
+        self.btnTypePractice['command'] = self.startPractice
+        self.btnTypePractice.grid(row=1, column=1)
 
         self.text = '영어 타자 연습'
         self.width = 600
@@ -83,6 +88,15 @@ class Main(WFrame):
         # 새 기사 등록
         self.article = article
         ArticleWidget(self.frmArticle, self.article).pack()
+
+    ## 타자 연습을 시작합니다.
+    def startPractice(self):
+        try:
+            self.article.load()
+            self.openDialog(Practice1, article=self.article)
+        except Exception as e:
+            print(e)
+            MessageBox.showerror(self.text, '기사를 불러오지 못했습니다.\n잠시 후 다시 시도하세요.')
 
 if __name__ == '__main__':
     Main(Tk()).mainloop()

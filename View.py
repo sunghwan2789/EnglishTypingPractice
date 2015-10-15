@@ -17,10 +17,11 @@ class View(WFrame):
 
     def initializeWidget(self):
         self.txtArticle = Text(self)
+        self.txtArticle['font'] = 'Consolas'
         self.txtArticle.insert(INSERT, '\n'.join(self.article.texts))
         self.txtArticle.pack()
 
         self.text = '기사 보기'
-        self.width = 400
-        self.height = 300
+        self.width = 560
+        self.height = 440
         self.startPosition = StartPosition.centerParent
