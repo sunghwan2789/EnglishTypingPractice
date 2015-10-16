@@ -37,4 +37,5 @@ class VScrollWidget(Frame):
     ## 부모 Frame의 크기가 바뀌면 canvas의 크기를 조절한다.
     def _resized(self, e):
         self.canvas['width'] = self.master.winfo_width() - self.scrollbar.winfo_reqwidth()
+        self.canvas['height'] = self.master.winfo_reqheight()
         self.canvas.itemconfigure(self.frame_id, width=self.canvas.winfo_reqwidth())

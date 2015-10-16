@@ -14,7 +14,7 @@ class Practice1(WFrame):
     def initializeWidget(self):
         self.txtt = Label(self)
         self.txtt['justify'] = LEFT
-        self.txtt['text'] = '\n'.join(self.article.texts)
+        self.txtt['text'] = '\n\n'.join(self.article.texts)
         self.txtt['font'] = 'Consolas'
         self.txtt['padx'] = 0
         self.txtt['pady'] = 0

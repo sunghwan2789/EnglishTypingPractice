@@ -1,5 +1,6 @@
 from tkinter import *
 from WFrame import *
+from VScrollWidget import *
 
 ## 기사 한눈에 보기
 #
@@ -16,12 +17,18 @@ class View(WFrame):
         super().__init__(master, **kw)
 
     def initializeWidget(self):
-        self.txtArticle = Text(self)
-        self.txtArticle['font'] = 'Consolas'
-        self.txtArticle.insert(INSERT, '\n'.join(self.article.texts))
-        self.txtArticle.pack()
+        self.scrollFrame = VScrollWidget(self)
+        self.scrollFrame.pack(fill=BOTH, expand=TRUE)
+
+        self.lblArticle = Label(self.scrollFrame.frame)
+        self.lblArticle['justify'] = LEFT
+        self.lblArticle['text'] = '\n'.join(self.article.texts)
+        self.lblArticle['font'] = 'Consolas'
+        self.lblArticle['padx'] = 0
+        self.lblArticle['pady'] = 0
+        self.lblArticle.pack(padx=(40, 0), pady=(20, 0), anchor=NW)
 
         self.text = '기사 보기'
-        self.width = 560
-        self.height = 440
+        self.width = 640
+        self.height = 480
         self.startPosition = StartPosition.centerParent
