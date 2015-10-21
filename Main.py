@@ -69,7 +69,8 @@ class Main(WFrame):
 
     ## 기사 전문 보기
     def showArticle(self):
-        self.openDialog(View, article=self.article)
+        if self.article:
+            self.openDialog(View, article=self.article)
 
     ## Search로 NYTimes를 검색하고 연습에 쓸 기사를 선택합니다.
     def searchNYTimes(self):
@@ -85,7 +86,8 @@ class Main(WFrame):
 
     ## 타자 연습을 시작합니다.
     def startPractice(self):
-        self.openDialog(Practice1, article=self.article)
+        if self.article:
+            self.openDialog(Practice1, article=self.article)
 
 if __name__ == '__main__':
     Main(Tk()).mainloop()

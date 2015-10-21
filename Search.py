@@ -56,7 +56,7 @@ class Search(WFrame):
         for article in Search.getArticles(self.txtKeyword.get(), self.page):
             ArticleWidget(self.frmArticleList.frame, article).pack()
 
-    ## 선택한 ArticleWidget으로 Article을 만든 후 result에 저장하고 창을 닫는다.
+    ## 선택한 ArticleWidget의 article을 load()하고 result에 저장 후 창을 닫는다.
     def select(self, e):
         isArticleWidget = isinstance(e.widget, ArticleWidget)
         if isArticleWidget or isinstance(e.widget.master, ArticleWidget):

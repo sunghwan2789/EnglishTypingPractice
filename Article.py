@@ -52,6 +52,7 @@ class Article:
             # quote 치환
             raw = re.sub(r'[“”]|‘‘|’’', '"', raw)
             raw = re.sub(r'[‘’]', "'", raw)
+            raw = re.sub(r'—', '-', raw)
             raw = html.unescape(raw)
             paragraphs.append(raw)
             # 다음 문단 검색
