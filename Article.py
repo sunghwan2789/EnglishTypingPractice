@@ -1,4 +1,3 @@
-import tkinter.messagebox as MessageBox
 import urllib.request
 import patch_urllib_request
 import urllib.parse
@@ -37,6 +36,7 @@ class Article:
             return
         # 기사 본문 내려받기
         url = 'http://mobile' + self.url[10:-4] + 'amp.html'
+        print('load', url)
         response = urllib.request.urlopen(url)
         content = response.read().decode('UTF-8')
         # 문단 추출

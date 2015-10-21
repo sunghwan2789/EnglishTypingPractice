@@ -1,4 +1,5 @@
 from tkinter import *
+import tkinter.messagebox as MessageBox
 from WFrame import *
 from VScrollWidget import *
 from Article import *
@@ -60,8 +61,13 @@ class Search(WFrame):
         isArticleWidget = isinstance(e.widget, ArticleWidget)
         if isArticleWidget or isinstance(e.widget.master, ArticleWidget):
             aw = e.widget if isArticleWidget else e.widget.master
-            self.result = aw.article
-            self.close()
+            try:
+                aw.article.load()
+                self.result = aw.article
+                self.close()
+            except Exception as e:
+                print(e)
+                MessageBox.showerror(self.text, '기사를 불러오지 못했습니다.\n잠시 후 다시 시도하세요.')
 
     ## NYTimes의 API를 이용해 keyword에 해당하는 기사의 목록을 10개 단위로 가져온다.
     #
