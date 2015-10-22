@@ -5,6 +5,7 @@ from ArticleWidget import *
 from Search import *
 from View import *
 from Practice1 import *
+from Practice2 import *
 import pickle
 
 ## 영어 타자 연습의 대문
@@ -40,7 +41,12 @@ class Main(WFrame):
         self.btnTypePractice = Button(self)
         self.btnTypePractice['text'] = '연습 시작'
         self.btnTypePractice['command'] = self.startPractice
-        self.btnTypePractice.grid(row=1, column=1)
+        self.btnTypePractice.place(x=100, y=100)
+
+        self.btnTypePractice = Button(self)
+        self.btnTypePractice['text'] = '연습 시작2'
+        self.btnTypePractice['command'] = self.startPractice2
+        self.btnTypePractice.place(x=300, y=100)
 
         self.text = '영어 타자 연습'
         self.width = 600
@@ -88,6 +94,11 @@ class Main(WFrame):
     def startPractice(self):
         if self.article:
             self.openDialog(Practice1, article=self.article)
+
+    ## 타자 연습2을 시작합니다.
+    def startPractice2(self):
+        if self.article:
+            self.openDialog(Practice2, article=self.article)
 
 if __name__ == '__main__':
     Main(Tk()).mainloop()
