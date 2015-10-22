@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
 from WFrame import *
+from time import time
 
 class Practice1(WFrame):
 
@@ -11,9 +12,14 @@ class Practice1(WFrame):
     row = int
     ROWS_PER_PAGE = 6
 
+    typeStart = float
+    typed = int
+
     def __init__(self, master=None, article=None, **kw):
         self.article = article
         self.row = 0
+        self.typeStart = time()
+        self.typed = 0
         super().__init__(master, **kw)
 
     def initializeWidget(self):
@@ -27,6 +33,10 @@ class Practice1(WFrame):
             text = Label(self, justify=LEFT, font='Consolas', padx=0, pady=0)
             text.place(x=40, y=40 + i * 60)
             self.texts.append(text)
+
+        self.indicator = Label(self)
+        self.indicator['text'] = '현재 타속:'
+        self.indicator.place(x=320, y=440)
 
         self.text = '영어 타자 연습 모드1'
         self.width = 640
@@ -59,22 +69,26 @@ class Practice1(WFrame):
             if e.keysym_num <= 0x7F and ch != '\0':
                 if len(text) < len(context):
                     row['text'] = text + ch + '_'
+                    self.typed += 1
                 # row completed
                 else:
                     self.endRow()
             # erase
             elif e.keysym == 'BackSpace' and len(text):
                 row['text'] = text[:-1] + '_'
+                # self.typed -= 3
             # increase row
             elif e.keysym == 'Return':
                 self.endRow()
         except ValueError:
             pass
+        self.indicator['text'] = '현재 타속: %d' % int(self.typed / (time() - self.typeStart) * 60)
 
     def endRow(self):
         row = self.texts[self.row % self.ROWS_PER_PAGE]
         text = row['text'][:-1]
         row['text'] = text
+        self.typed += 1
 
         self.row += 1
         self.onLoad()
