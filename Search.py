@@ -7,7 +7,7 @@ from ArticleWidget import *
 import urllib.parse
 import urllib.request
 import json
-import __config__
+import data.config as __config__
 
 ## NYTimes 기사 검색기
 class Search(WFrame):

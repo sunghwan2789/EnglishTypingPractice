@@ -6,6 +6,7 @@ from Search import *
 from View import *
 from Practice1 import *
 from Practice2 import *
+from Practice3 import *
 import pickle
 
 ## 영어 타자 연습의 대문
@@ -39,14 +40,19 @@ class Main(WFrame):
         self.btnNYTimes.grid(row=0, column=3)
 
         self.btnTypePractice = Button(self)
-        self.btnTypePractice['text'] = '연습 시작'
+        self.btnTypePractice['text'] = '기본 타자 연습'
         self.btnTypePractice['command'] = self.startPractice
         self.btnTypePractice.place(x=100, y=100)
 
         self.btnTypePractice = Button(self)
-        self.btnTypePractice['text'] = '연습 시작2'
+        self.btnTypePractice['text'] = '겹쳐 보기 연습'
         self.btnTypePractice['command'] = self.startPractice2
         self.btnTypePractice.place(x=300, y=100)
+
+        self.btnTypePractice = Button(self)
+        self.btnTypePractice['text'] = '받아쓰기 연습'
+        self.btnTypePractice['command'] = self.startPractice3
+        self.btnTypePractice.place(x=100, y=200)
 
         self.text = '영어 타자 연습'
         self.width = 600
@@ -59,7 +65,7 @@ class Main(WFrame):
     def onLoad(self):
         # 글 불러오기
         try:
-            with open('last.article', 'rb') as article:
+            with open('data/article.pkl', 'rb') as article:
                 self.article = pickle.load(article)
                 ArticleWidget(self.frmArticle, self.article).pack()
         except:
@@ -68,7 +74,7 @@ class Main(WFrame):
     def onClosing(self):
         # 글 저장하기
         try:
-            with open('last.article', 'wb') as article:
+            with open('data/article.pkl', 'wb') as article:
                 pickle.dump(self.article, article)
         except:
             pass
@@ -99,6 +105,11 @@ class Main(WFrame):
     def startPractice2(self):
         if self.article:
             self.openDialog(Practice2, article=self.article)
+
+    ## 타자 연습3을 시작합니다.
+    def startPractice3(self):
+        if self.article:
+            self.openDialog(Practice3, article=self.article)
 
 if __name__ == '__main__':
     Main(Tk()).mainloop()
