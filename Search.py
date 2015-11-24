@@ -1,9 +1,9 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
-from WFrame import *
-from VScrollWidget import *
-from Article import *
-from ArticleWidget import *
+from wframe import WFrame, StartPosition
+from vscrollwidget import VScrollWidget
+from article import Article
+from articlewidget import ArticleWidget
 import urllib.parse
 import urllib.request
 import json

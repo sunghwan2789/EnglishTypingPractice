@@ -1,12 +1,13 @@
 from tkinter import *
-from WFrame import *
-from Article import *
-from ArticleWidget import *
-from Search import *
-from View import *
+from wframe import WFrame, StartPosition
+from article import Article
+from articlewidget import ArticleWidget
+from search import Search
+from view import View
 from Practice1 import *
 from Practice2 import *
 from Practice3 import *
+# from fixer import Fixer
 import pickle
 
 ## 영어 타자 연습의 대문
@@ -53,6 +54,11 @@ class Main(WFrame):
         self.btnTypePractice['text'] = '받아쓰기 연습'
         self.btnTypePractice['command'] = self.startPractice3
         self.btnTypePractice.place(x=100, y=200)
+
+        self.btnTypePractice = Button(self)
+        self.btnTypePractice['text'] = '오타 알리미'
+        self.btnTypePractice['command'] = self.startFixer
+        self.btnTypePractice.place(x=300, y=200)
 
         self.text = '영어 타자 연습'
         self.width = 600
@@ -110,6 +116,10 @@ class Main(WFrame):
     def startPractice3(self):
         if self.article:
             self.openDialog(Practice3, article=self.article)
+
+    ## 오타 알리미를 시작합니다.
+    def startFixer(self):
+        self.openDialog(Fixer)
 
 if __name__ == '__main__':
     Main(Tk()).mainloop()

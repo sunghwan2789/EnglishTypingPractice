@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
-from WFrame import *
+from wframe import WFrame, StartPosition
 from time import time
 
 class Practice2(WFrame):
@@ -55,6 +55,7 @@ class Practice2(WFrame):
             for i in range(self.ROWS_PER_PAGE):
                 self.labels[i]['text'] = texts[i] if i < len(texts) else ''
                 self.texts[i]['text'] = ''
+        # self.texts[row]['text'] = '_' ==> endRow(): self.texts[:-1]
 
     ## 키 입력 처리
     # @see http://www.tcl.tk/man/tcl8.4/TkCmd/keysyms.htm
@@ -86,7 +87,7 @@ class Practice2(WFrame):
 
     def endRow(self):
         row = self.texts[self.row % self.ROWS_PER_PAGE]
-        text = row['text'][:-1]
+        text = row['text']#[:-1]
         row['text'] = text
         self.typed += 1
 

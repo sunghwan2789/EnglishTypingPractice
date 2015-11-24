@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
-from WFrame import *
+from wframe import WFrame, StartPosition
 from time import time
 import urllib.parse
 import urllib.request
@@ -59,6 +59,7 @@ class Practice3(WFrame):
             for i in range(self.ROWS_PER_PAGE):
                 self.labels[i]['text'] = texts[i] if i < len(texts) else ''
                 self.texts[i]['text'] = ''
+        # self.texts[row]['text'] = '_' ==> endRow(): self.texts[:-1]
 
         t = threading.Thread(target=Practice3.speak, args=[ self.article.texts[self.row] ])
         t.start()
@@ -104,7 +105,7 @@ class Practice3(WFrame):
 
     def endRow(self):
         row = self.texts[self.row % self.ROWS_PER_PAGE]
-        text = row['text'][:-1]
+        text = row['text']#[:-1]
         row['text'] = text
         self.typed += 1
 

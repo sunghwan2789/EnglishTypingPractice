@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
-from WFrame import *
+from wframe import WFrame, StartPosition
 from time import time
 
 class Practice1(WFrame):

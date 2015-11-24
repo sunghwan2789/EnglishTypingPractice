@@ -1,5 +1,5 @@
 from tkinter import *
-from Article import *
+from article import Article
 
 ## Article의 기본 정보를 담은 Widget
 class ArticleWidget(Frame):

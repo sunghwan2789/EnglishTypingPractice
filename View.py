@@ -1,6 +1,6 @@
 from tkinter import *
-from WFrame import *
-from VScrollWidget import *
+from wframe import WFrame, StartPosition
+from vscrollwidget import VScrollWidget
 
 ## 기사 한눈에 보기
 #
