@@ -1,29 +1,45 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
 from wframe import WFrame, StartPosition
-from enum import IntEnum
+from enum import Enum
 from time import time
 
-class DisplayMode(IntEnum):
-    # 0b001
-    default = 1
-    # 0b010
-    overlap = 2
-    # 0b100
-    hidden  = 4
+## 줄의 보기 설정을 관리하는 열거형
+class DisplayMode(Enum):
+    ## 예문, 입력 모두 보기
+    default = 0
+    ## 예문, 입력 겹쳐 보기
+    overlap = 1
+    ## 입력만 보기
+    hidden  = 2
 
+## 타자 연습하는 WFrame
 class Practice(WFrame):
 
+    ## 타자 연습에 쓸 기사
+    # @var Article
     article = None
-
+    ## 현재 타자 중인 줄 색인
+    # @var int
     line = int
     LINES_PER_PAGE = 6
-
+    ## 첫 타자 시각
+    #
+    # 타자 수 계산에 활용
+    # @see keyDown()
+    # @var time
     typeStart = float
+    ## 타자 수
+    #
+    # 타자 수 계산에 활용
+    # @see keyDown()
+    # @var int
     typed = int
-
+    ## 줄의 보기 설정
+    # @var DisplayMode
     displayMode = DisplayMode.default
 
+    ## 생성자
     def __init__(self, master=None, article=None, **kw):
         self.article = article
         self.line = 0
@@ -31,9 +47,12 @@ class Practice(WFrame):
         self.typed = 0
         super().__init__(master, **kw)
 
+    ## displayMode에 근거하여 indicator를 정한다.
+    #
+    # displayMode가 overlap일 때 '_', 그 외 ''
     def initializeWidget(self):
-        labelOffset = -10 if self.displayMode & DisplayMode.default else 0
-        textOffset = 10 if self.displayMode & DisplayMode.default else 0
+        labelOffset = -10 if self.displayMode == DisplayMode.default else 0
+        textOffset = 10 if self.displayMode == DisplayMode.default else 0
 
         self.labels = []
         self.texts = []
@@ -43,9 +62,9 @@ class Practice(WFrame):
             label['font'] = 'Consolas'
             label['padx'] = 0
             label['pady'] = 0
-            if self.displayMode & DisplayMode.overlap:
+            if self.displayMode == DisplayMode.overlap:
                 label['fg'] = 'gray'
-            if self.displayMode & ~DisplayMode.hidden:
+            if not self.displayMode == DisplayMode.hidden:
                 label.place(x=40, y=30 + labelOffset + i * 60)
             self.labels.append(label)
 
@@ -57,7 +76,7 @@ class Practice(WFrame):
             text.place(x=40, y=30 + textOffset + i * 60)
             self.texts.append(text)
 
-        self.indicator = '' if self.displayMode & DisplayMode.overlap else '_'
+        self.indicator = '' if self.displayMode == DisplayMode.overlap else '_'
 
         self.meter = Label(self)
         self.meter['text'] = '현재 타속:'
@@ -78,9 +97,9 @@ class Practice(WFrame):
         line = self.line % self.LINES_PER_PAGE
         # 페이지 넘기기
         if line == 0:
-            texts = self.article.texts[self.line:][:self.LINES_PER_PAGE]
+            contexts = self.article.texts[self.line:][:self.LINES_PER_PAGE]
             for i in range(self.LINES_PER_PAGE):
-                self.labels[i]['text'] = texts[i] if i < len(texts) else ''
+                self.labels[i]['text'] = contexts[i] if i < len(contexts) else ''
                 self.texts[i]['text'] = ''
         # 타자 위치 안내자
         self.texts[line]['text'] = self.indicator
@@ -91,24 +110,22 @@ class Practice(WFrame):
         try:
             ch = chr(e.keysym_num)
             context = self.article.texts[self.line]
-            line = self.texts[self.line % self.LINES_PER_PAGE]
-            text = line['text']
-            if len(self.indicator):
-                text = text[:-len(self.indicator)]
+            text = self.texts[self.line % self.LINES_PER_PAGE]
+            line = text['text'][:len(text['text']) - len(self.indicator)]
             # default behavior
             if e.keysym_num <= 0x7F and ch != '\0':
                 # line incompleted
-                if len(text) < len(context):
-                    line['text'] = text + ch + self.indicator
+                if len(line) < len(context):
+                    text['text'] = line + ch + self.indicator
                     # 정타 처리
-                    if ch == context[len(text):][0]:
+                    if ch == context[len(line)]:
                         self.typed += 1
                 # line completed
                 else:
                     self.endLine()
             # erase
-            elif e.keysym == 'BackSpace' and len(text):
-                line['text'] = text[:-1] + self.indicator
+            elif e.keysym == 'BackSpace' and len(line):
+                text['text'] = line[:-1] + self.indicator
                 # penalty
                 # self.typed -= 3
             # change line
@@ -119,12 +136,11 @@ class Practice(WFrame):
         # speed = typed / duration * 60
         self.meter['text'] = '현재 타속: %d' % int(self.typed / (time() - self.typeStart) * 60)
 
+    ## 줄 넘기기
     def endLine(self):
-        line = self.texts[self.line % self.LINES_PER_PAGE]
-        text = line['text']
-        if len(self.indicator):
-            text = text[:-len(self.indicator)]
-        line['text'] = text
+        text = self.texts[self.line % self.LINES_PER_PAGE]
+        line = text['text'][:len(text['text']) - len(self.indicator)]
+        text['text'] = line
         self.typed += 1
 
         self.line += 1

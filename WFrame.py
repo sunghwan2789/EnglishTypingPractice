@@ -3,10 +3,10 @@ from enum import Enum
 
 ## WFrame 창의 처음 위치를 나타내는 열거형
 class StartPosition(Enum):
-    default = 0
+    default      = 0
     centerScreen = 1
     centerParent = 2
-    manual = 3
+    manual       = 3
 
 ## Windows Forms를 토대로 작성한 Frame
 #

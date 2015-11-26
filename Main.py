@@ -7,7 +7,7 @@ from view import View
 from practice1 import Practice1
 from practice2 import Practice2
 from practice3 import Practice3
-from fixer import Fixer
+from practice4 import Practice4
 import pickle
 
 ## 영어 타자 연습의 대문
@@ -56,8 +56,8 @@ class Main(WFrame):
         self.btnTypePractice.place(x=100, y=200)
 
         self.btnTypePractice = Button(self)
-        self.btnTypePractice['text'] = '오타 알리미'
-        self.btnTypePractice['command'] = self.startFixer
+        self.btnTypePractice['text'] = '받아쓰기 마스터'
+        self.btnTypePractice['command'] = self.startPractice4
         self.btnTypePractice.place(x=300, y=200)
 
         self.text = '영어 타자 연습'
@@ -117,9 +117,10 @@ class Main(WFrame):
         if self.article:
             self.openDialog(Practice3, article=self.article)
 
-    ## 오타 알리미를 시작합니다.
-    def startFixer(self):
-        self.openDialog(Fixer)
+    ## 타자 연습4을 시작합니다.
+    def startPractice4(self):
+        if self.article:
+            self.openDialog(Practice4, article=self.article)
 
 if __name__ == '__main__':
     Main(Tk()).mainloop()

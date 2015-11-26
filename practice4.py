@@ -1,15 +1,15 @@
 from practice import Practice, DisplayMode
 from text2speech import TTS
 
-class Practice3(Practice):
+class Practice4(Practice):
 
-    displayMode = DisplayMode.overlap
+    displayMode = DisplayMode.hidden
     ## TTS
     # @var TTS
     reader = None
 
     def __init__(self, master=None, article=None, **kw):
-        self.reader = TTS()
+        self.reader = TTS(True)
         super().__init__(master, article, **kw)
 
     def onLoad(self):
