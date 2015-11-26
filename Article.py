@@ -70,7 +70,7 @@ class Article:
                         # 문장에 단어가 하나밖에 없으면 자른다.
                         # 단어가 60자를 넘는 경우
                         if len(data) == 1:
-                            part = part[:59] + '-'
+                            part = part[:60 - 1] + '-'
                             startIdx -= 1
                 except:
                     pass

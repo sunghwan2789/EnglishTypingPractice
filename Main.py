@@ -4,10 +4,10 @@ from article import Article
 from articlewidget import ArticleWidget
 from search import Search
 from view import View
-from Practice1 import *
-from Practice2 import *
-from Practice3 import *
-# from fixer import Fixer
+from practice1 import Practice1
+from practice2 import Practice2
+from practice3 import Practice3
+from fixer import Fixer
 import pickle
 
 ## 영어 타자 연습의 대문
