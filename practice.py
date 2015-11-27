@@ -38,6 +38,11 @@ class Practice(WFrame):
     ## 줄의 보기 설정
     # @var DisplayMode
     displayMode = DisplayMode.default
+    ## indicator
+    # @var string
+    @property
+    def indicator(self):
+        return '' if self.displayMode == DisplayMode.overlap else '_'
 
     ## 생성자
     def __init__(self, master=None, article=None, **kw):
@@ -76,8 +81,6 @@ class Practice(WFrame):
             text.place(x=40, y=30 + textOffset + i * 60)
             self.texts.append(text)
 
-        self.indicator = '' if self.displayMode == DisplayMode.overlap else '_'
-
         self.meter = Label(self)
         self.meter['text'] = '현재 타속:'
         self.meter.pack(side=BOTTOM, fill=X, pady=(0, 40))
@@ -115,11 +118,15 @@ class Practice(WFrame):
             # default behavior
             if e.keysym_num <= 0x7F and ch != '\0':
                 # line incompleted
-                if len(line) < len(context):
+                expected = len(line)
+                if expected < len(context):
                     text['text'] = line + ch + self.indicator
                     # 정타 처리
-                    if ch == context[len(line)]:
+                    if ch == context[expected]:
                         self.typed += 1
+                    # 오타 처리
+                    # else:
+                    #     Practice.logWrong(context, expected, ch)
                 # line completed
                 else:
                     self.endLine()
