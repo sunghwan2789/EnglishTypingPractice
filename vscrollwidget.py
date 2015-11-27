@@ -3,7 +3,7 @@ from tkinter import *
 ## 종 스크롤 Widget
 #
 # 부모 Frame에 꽉차게 그린다.
-# http://stackoverflow.com/q/16188420
+# http://stackoverflow.com/a/16198198
 class VScrollWidget(Frame):
 
     ## Widget을 추가할 때 쓸 Frame

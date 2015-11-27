@@ -4,7 +4,8 @@ import threading
 import winsound
 
 ## Text를 Speech하는 클래스
-# @see https://github.com/craic/bing_translate_text_to_speech
+#
+# http://bing-translate-tts-demo.craic.com
 # @see https://docs.python.org/3/library/winsound.html
 class TTS:
 

@@ -1,3 +1,5 @@
+## http://stackoverflow.com/a/554580
+
 import urllib.request
 
 class RedirectWithCookieHandler(urllib.request.HTTPRedirectHandler):
