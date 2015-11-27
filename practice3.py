@@ -9,7 +9,7 @@ class Practice3(Practice):
     reader = None
 
     def __init__(self, master=None, article=None, **kw):
-        self.reader = TTS()
+        self.reader = TTS(True)
         super().__init__(master, article, **kw)
 
     def onLoad(self):
