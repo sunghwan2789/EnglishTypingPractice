@@ -66,6 +66,7 @@ class Fixer(WFrame):
 
     @staticmethod
     def load():
+        typos = None
         try:
             with open('data/typos.pkl', 'rb') as data:
                 typos = pickle.load(data)
