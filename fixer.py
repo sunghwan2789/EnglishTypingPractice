@@ -66,16 +66,15 @@ class Fixer(WFrame):
 
     @staticmethod
     def load():
-        typos = TypoList()
         try:
             with open('data/typos.pkl', 'rb') as data:
                 typos = pickle.load(data)
         except:
             pass
-        return typos
+        return TypoList() if typos == None else typos
 
     @staticmethod
     def save(typoList):
-        typoBak = Fixer.load().extend(typoList)
+        typoBak = Fixer.load()
         with open('data/typos.pkl', 'wb') as typos:
-            pickle.dump(typoBak, typos)
+            pickle.dump(typoBak + typoList, typos)
