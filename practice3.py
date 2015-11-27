@@ -18,3 +18,4 @@ class Practice3(Practice):
 
     def onClosing(self):
         self.reader.stop()
+        super().onClosing()

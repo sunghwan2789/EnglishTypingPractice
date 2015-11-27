@@ -3,6 +3,7 @@ import tkinter.messagebox as MessageBox
 from wframe import WFrame, StartPosition
 from enum import Enum
 from time import time
+from fixer import Fixer, TypoList
 
 ## 줄의 보기 설정을 관리하는 열거형
 class DisplayMode(Enum):
@@ -35,6 +36,9 @@ class Practice(WFrame):
     # @see keyDown()
     # @var int
     typed = int
+    ## 오타 저장을 위한 리스트
+    # @var TypoList
+    typos = None
     ## 줄의 보기 설정
     # @var DisplayMode
     displayMode = DisplayMode.default
@@ -50,11 +54,9 @@ class Practice(WFrame):
         self.line = 0
         self.typeStart = time()
         self.typed = 0
+        self.typos = TypoList()
         super().__init__(master, **kw)
 
-    ## displayMode에 근거하여 indicator를 정한다.
-    #
-    # displayMode가 overlap일 때 '_', 그 외 ''
     def initializeWidget(self):
         labelOffset = -10 if self.displayMode == DisplayMode.default else 0
         textOffset = 10 if self.displayMode == DisplayMode.default else 0
@@ -88,7 +90,7 @@ class Practice(WFrame):
         self.text = '영어 타자 연습'
         self.width = 640
         self.height = 480
-        self.StartPosition = StartPosition.centerParent
+        self.startPosition = StartPosition.centerParent
         self.bind('<KeyPress>', self.keyDown)
 
     def onLoad(self):
@@ -125,8 +127,8 @@ class Practice(WFrame):
                     if ch == context[expected]:
                         self.typed += 1
                     # 오타 처리
-                    # else:
-                    #     Practice.logWrong(context, expected, ch)
+                    else:
+                        self.typos.append(context, expected, ch)
                 # line completed
                 else:
                     self.endLine()
@@ -152,3 +154,6 @@ class Practice(WFrame):
 
         self.line += 1
         self.onLoad()
+
+    def onClosing(self):
+        Fixer.save(self.typos)
